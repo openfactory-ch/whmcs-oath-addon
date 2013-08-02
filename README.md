@@ -14,6 +14,10 @@ Once uploaded, go to Setup > Addon Modules in your admin area and click Activate
 
 If you discover any issues or bugs, please report them on the [issue tracker](https://bitbucket.org/Doctor_McKay/whmcs-oath-addon/issues?status=new&status=open).
 
+## Support
+
+Donations are gladly welcomed [here](https://www.doctormckay.com/donate.php).
+
 ## Credits
 
 This addon was made possible by:
