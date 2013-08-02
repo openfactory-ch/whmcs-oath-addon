@@ -9,11 +9,11 @@ function oath_hook_client_login($vars) {
 	}
 	
     $userid = $vars['userid'];
-	if(!mysql_num_rows(mysql_query("SELECT NULL FROM `mod_oath_client` WHERE userid = '{$vars['userid']}'"))) {
+	if(!get_query_val('mod_oath_client', 'secret', "userid = '{$vars['userid']}'")) {
 		return;
 	}
 	
-	if(!mysql_num_rows(mysql_query("SELECT NULL FROM `tbladdonmodules` WHERE module = 'oath' AND setting = 'enable_clients' AND value != ''"))) {
+	if(!get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'enable_clients'")) {
 		return;
 	}
 	

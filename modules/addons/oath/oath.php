@@ -7,7 +7,7 @@ function oath_config() {
 	$configarray = array(
 	"name" => "OATH Two Factor Authentication",
 	"description" => "Provides OATH token-based two factor authentication for clients and admins",
-	"version" => "1.0.0",
+	"version" => "1.0.1",
 	"author" => "Dr. McKay",
 	"fields" => array(
 		"enable_clients" => array("FriendlyName" => "Enable for Clients", "Type" => "yesno", "Description" => "Tick to enable OATH two-factor authentication support for clients"),
@@ -19,15 +19,15 @@ function oath_config() {
 }
 
 function oath_activate() {
-	mysql_query("CREATE TABLE `mod_oath_client` (`userid` int(11) NOT NULL, `secret` varchar(64) NOT NULL, `emergencycode` varchar(64) NOT NULL, PRIMARY KEY (`userid`))");
-	//mysql_query("CREATE TABLE `mod_oath_admin` (`adminid` int(11) NOT NULL, `secret` varchar(64) NOT NULL, PRIMARY KEY (`userid`))");
+	full_query("CREATE TABLE `mod_oath_client` (`userid` int(11) NOT NULL, `secret` varchar(64) NOT NULL, `emergencycode` varchar(64) NOT NULL, PRIMARY KEY (`userid`))");
+	//full_query("CREATE TABLE `mod_oath_admin` (`adminid` int(11) NOT NULL, `secret` varchar(64) NOT NULL, PRIMARY KEY (`userid`))");
 	
 	return array('status' => 'success', 'description' => 'OATH Two-Factor Authentication has been enabled.');
 }
 
 function oath_deactivate() {
-	mysql_query("DROP TABLE `mod_oath_client`");
-	mysql_query("DROP TABLE `mod_oath_admin`");
+	full_query("DROP TABLE `mod_oath_client`");
+	//full_query("DROP TABLE `mod_oath_admin`");
 	
 	return array('status' => 'success', 'description' => 'OATH Two-Factor Authentication has been disabled and all tokens have been deleted.');
 }
@@ -42,21 +42,24 @@ function oath_clientarea($vars) {
 		$userid = $_SESSION['twofactorverify'];
 	}
 	
-	$q = mysql_fetch_array(mysql_query("SELECT secret, emergencycode FROM `mod_oath_client` WHERE userid = '$userid'"));
+	$secret = get_query_val('mod_oath_client', 'secret', "userid = '$userid'");
+	$emergencycode = get_query_val('mod_oath_client', 'emergencycode', "userid = '$userid'");
 	
 	if($_SESSION['twofactorverify'] && !$_POST['action'] == 'login') {
 		$ret['pagetitle'] = 'Two-Factor Login Verification';
 		$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
 		$ret['templatefile'] = 'clientareaoath';
 		$ret['requirelogin'] = false;
-		$ret['vars']['secret'] = $q['secret'];
+		$ret['vars']['secret'] = $secret;
 		$ret['vars']['modulelink'] = $vars['modulelink'];
 		$ret['vars']['login'] = 1;
 		return $ret;
 	} elseif($_SESSION['twofactorverify'] && $_POST['action'] == 'login') {
 		if($_POST['emergencycode']) {
-			if($_POST['emergencycode'] == $q['emergencycode']) {
-				mysql_query("DELETE FROM `mod_oath_client` WHERE userid = '$userid'");
+			$realcode = str_replace(' ', '', strtolower($emergencycode));
+			$theircode = str_replace(' ', '', strtolower($_POST['emergencycode']));
+			if($theircode == $realcode) {
+				full_query("DELETE FROM `mod_oath_client` WHERE userid = '$userid'");
 				$_SESSION['uid'] = $_SESSION['twofactorverify'];
 				$_SESSION['upw'] = $_SESSION['twofactorverifypw'];
 				unset($_SESSION['twofactorverify']);
@@ -68,7 +71,7 @@ function oath_clientarea($vars) {
 				$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
 				$ret['templatefile'] = 'clientareaoath';
 				$ret['requirelogin'] = false;
-				$ret['vars']['secret'] = $q['secret'];
+				$ret['vars']['secret'] = $secret;
 				$ret['vars']['modulelink'] = $vars['modulelink'];
 				$ret['vars']['login'] = 1;
 				$ret['vars']['incorrect'] = 1;
@@ -76,13 +79,13 @@ function oath_clientarea($vars) {
 			}
 		}
 		
-		$discrepancy = mysql_fetch_array(mysql_query("SELECT value FROM `tbladdonmodules` WHERE module = 'oath' AND setting = 'discrepancy'"));
-		if(!$gauth->verifyCode($q['secret'], $_POST['code'], $discrepancy['value'])) {
+		$discrepancy = get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'discrepancy'");
+		if(!$gauth->verifyCode($secret, $_POST['code'], $discrepancy)) {
 			$ret['pagetitle'] = 'Two-Factor Login Verification';
 			$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
 			$ret['templatefile'] = 'clientareaoath';
 			$ret['requirelogin'] = false;
-			$ret['vars']['secret'] = $q['secret'];
+			$ret['vars']['secret'] = $secret;
 			$ret['vars']['modulelink'] = $vars['modulelink'];
 			$ret['vars']['login'] = 1;
 			$ret['vars']['incorrect'] = 1;
@@ -99,22 +102,21 @@ function oath_clientarea($vars) {
 	
 	if($_GET['qr']) {
 		require_once('./modules/addons/oath/phpqrcode/qrlib.php');
-		$company = mysql_fetch_array(mysql_query("SELECT value FROM `tblconfiguration` WHERE setting = 'CompanyName'"));
-		QRcode::png('otpauth://totp/' . urlencode(str_replace(' ', '', $company['value'])) . '?secret=' . $_GET['secret']);
+		$company = get_query_val('tblconfiguration', 'value', "setting = 'CompanyName'");
+		QRcode::png('otpauth://totp/' . urlencode(str_replace(' ', '', $company)) . '?secret=' . $_GET['secret']);
 		return;
 	}
 	
-	if($q['secret']) {
+	if($secret) {
 		$ret['vars']['active'] = 1;
 	}
 	
 	if($_POST['action'] == 'enable') {
-		$q['secret'] = $gauth->createSecret();
+		$secret = $gauth->createSecret();
 		$ret['vars']['verify'] = 1;
 	} elseif($_POST['action'] == 'verify') {
 		$secret = $_POST['secret'];
 		$code = $_POST['code'];
-		$q['secret'] = $secret;
 		if(!$gauth->verifyCode($secret, $code, $vars['discrepancy'])) {
 			$ret['vars']['incorrect'] = 1;
 			$ret['vars']['verify'] = 1;
@@ -127,23 +129,23 @@ function oath_clientarea($vars) {
 				}
 				$emergencycode .= substr($characters, rand(0, strlen($characters) - 1), 1);
 			}
-			mysql_query("INSERT INTO `mod_oath_client` SET userid = '{$_SESSION['uid']}', secret = '$secret', emergencycode = '$emergencycode'");
+			insert_query('mod_oath_client', array('userid' => $_SESSION['uid'], 'secret' => $secret, 'emergencycode' => $emergencycode));
 			$ret['vars']['active'] = 1;
 			$ret['vars']['firstactivation'] = 1;
-			$q['emergencycode'] = $emergencycode;
 		}
 	} elseif($_POST['action'] == 'disable') {
-		mysql_query("DELETE FROM `mod_oath_client` WHERE userid = '{$_SESSION['uid']}'");
+		full_query("DELETE FROM `mod_oath_client` WHERE userid = '{$_SESSION['uid']}'");
 		unset($ret['vars']['active']);
-		unset($q);
+		unset($secret);
+		unset($emergencycode);
 	}
 	
 	$ret['pagetitle'] = 'Two-Factor Login Configuration';
 	$ret['breadcrumb'] = array('index.php?m=oath' => 'Two-Factor Login Configuration');
 	$ret['templatefile'] = 'clientareaoath';
 	$ret['requirelogin'] = true;
-	$ret['vars']['secret'] = $q['secret'];
-	$ret['vars']['emergencycode'] = $q['emergencycode'];
+	$ret['vars']['secret'] = $secret;
+	$ret['vars']['emergencycode'] = $emergencycode;
 	$ret['vars']['enable_clients'] = $vars['enable_clients'];
 	$ret['vars']['allow_secret_review'] = $vars['allow_secret_review'];
 	$ret['vars']['modulelink'] = $vars['modulelink'];
