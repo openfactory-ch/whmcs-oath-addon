@@ -4,6 +4,8 @@ This WHMCS addon module provides OATH-based two-factor authentication. You'd nor
 
 At the present moment, only client area two-factor authentication is supported, but admin area two-factor authentication is planned to be finished soon.
 
+If you are logged in as an admin, client area two-factor authentication will be bypassed.
+
 ## Installation
 
 To install, simply download the latest [release](https://bitbucket.org/Doctor_McKay/whmcs-oath-addon/downloads), unzip it, and upload the `modules` and `templates` folders to your WHMCS root directory. If you use a WHMCS template besides "default", you'll need to add a link to "index.php?m=oath" somewhere within your WHMCS templates to allow clients to configure their two-factor authentication settings.
