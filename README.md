@@ -2,8 +2,6 @@
 
 This WHMCS addon module provides OATH-based two-factor authentication. You'd normally use this with a mobile app, like Google Authenticator (Free, [iOS](https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8) / [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)).
 
-At the present moment, only client area two-factor authentication is supported, but admin area two-factor authentication is planned to be finished soon.
-
 If you are logged in as an admin, client area two-factor authentication will be bypassed.
 
 ## Installation
@@ -11,6 +9,8 @@ If you are logged in as an admin, client area two-factor authentication will be 
 To install, simply download the latest [release](https://bitbucket.org/Doctor_McKay/whmcs-oath-addon/downloads), unzip it, and upload the `modules` and `templates` folders to your WHMCS root directory. If you use a WHMCS template besides "default", you'll need to add a link to "index.php?m=oath" somewhere within your WHMCS templates to allow clients to configure their two-factor authentication settings.
 
 Once uploaded, go to Setup > Addon Modules in your admin area and click Activate for the "OATH Two Factor Authentication" entry. Once activated, click Configure to customize your settings.
+
+When enabling two-factor authentication for administrators, the "Yes" option will make it optional, while "Required" will require all admins to enable two-factor authentication on their next login. You must tick off the admin role permission boxes next to the roles that you want to have access to two-factor authentication.
 
 ## Issues
 

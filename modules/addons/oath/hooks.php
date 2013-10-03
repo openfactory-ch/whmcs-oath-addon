@@ -27,3 +27,30 @@ function oath_hook_client_login($vars) {
 }
 
 add_hook("ClientLogin", 0, "oath_hook_client_login");
+
+function oath_hook_admin_logout($vars) {
+	unset($_SESSION['twofactoradmin']);
+}
+
+add_hook("AdminLogout", 0, "oath_hook_admin_logout");
+
+function oath_admin_page($vars) {
+	$script = explode('/', $_SERVER['SCRIPT_NAME']);
+	if(($script[count($script) - 1] == 'addonmodules.php' && $_GET['module'] == 'oath') || $_SESSION['twofactoradmin'] == $_SESSION['adminid']) {
+		return;
+	}
+	
+	$secret = get_query_val('mod_oath_admin', 'secret', "adminid = '{$_SESSION['adminid']}'");
+	$enable_admins = get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'enable_admins'");
+	$access = explode(',', get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'access'"));
+	$role = get_query_val('tbladmins', 'roleid', "id = '{$_SESSION['adminid']}'");
+	
+	if((!$secret && $enable_admins != 'Required') || $enable_admins == 'No' || !in_array($role, $access)) {
+		return;
+	}
+	
+	header('Location: addonmodules.php?module=oath');
+	exit(0);
+}
+
+add_hook("AdminAreaPage", 0, "oath_admin_page");
