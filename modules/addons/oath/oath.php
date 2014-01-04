@@ -3,6 +3,8 @@ if(!defined("WHMCS")) {
 	die("This file cannot be accessed directly");
 }
 
+define("FORCESSL", true);
+
 function oath_config() {
 	$configarray = array(
 	"name" => "OATH Two Factor Authentication",
@@ -37,6 +39,8 @@ function oath_upgrade($vars) {
 }
 
 function oath_clientarea($vars) {
+    define("FORCESSL", true);
+    
 	if($_GET['qr']) {
 		require_once('./modules/addons/oath/phpqrcode/qrlib.php');
 		$company = get_query_val('tblconfiguration', 'value', "setting = 'CompanyName'");
@@ -158,6 +162,7 @@ function oath_clientarea($vars) {
 }
 
 function oath_output($vars) {
+    
 	if($_GET['qr']) {
 		require_once('./../modules/addons/oath/phpqrcode/qrlib.php');
 		$company = get_query_val('tblconfiguration', 'value', "setting = 'CompanyName'");
@@ -165,7 +170,7 @@ function oath_output($vars) {
 		exit(0);
 	}
 	
-	echo '<div style="text-align:center">';
+	echo '<div style="text-align: center;">';
 	
 	$secret = get_query_val('mod_oath_admin', 'secret', "adminid = '{$_SESSION['adminid']}'");
 	
@@ -203,7 +208,10 @@ function oath_output($vars) {
 		if($_POST['code']) {
 			if($gauth->verifyCode($secret, $_POST['code'], $vars['discrepancy'])) {
 				$_SESSION['twofactoradmin'] = $_SESSION['adminid'];
-				header('Location: index.php');
+				$redirectURI = (!empty($_SESSION['original_request_uri'])) ? $_SESSION['original_request_uri'] : 'index.php';
+				
+				header('Location: '. $redirectURI);
+				unset($_SESSION['original_request_uri']);
 				exit(0);
 			} else {
 				echo '<p><b>Your code was incorrect.</b></p>';
