@@ -208,7 +208,8 @@ function oath_output($vars) {
 		if($_POST['code']) {
 			if($gauth->verifyCode($secret, $_POST['code'], $vars['discrepancy'])) {
 				$_SESSION['twofactoradmin'] = $_SESSION['adminid'];
-				$redirectURI = (!empty($_SESSION['original_request_uri'])) ? $_SESSION['original_request_uri'] : 'index.php';
+				$redirectURI = (!empty($_SESSION['original_request_uri'])) ?
+					htmlspecialchars_decode($_SESSION['original_request_uri']) : 'index.php';
 				
 				header('Location: '. $redirectURI);
 				unset($_SESSION['original_request_uri']);
