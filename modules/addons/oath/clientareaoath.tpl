@@ -7,7 +7,7 @@
 {/if}
 
 {if $login}
-	<p>{$OATH.enterCodeNote}</p><br />
+	<p class="alert alert-info">{$OATH.enterCodeNote}</p><br />
 	<form method="post" action="{$modulelink}">
 	<input type="hidden" name="action" value="login" />
 	<input type="text" name="code" placeholder="{$OATH.enterCode}" autocomplete="off" /><br />
@@ -38,7 +38,7 @@
 		<p class="alert alert-warning">{$OATH.recomApp}: <strong>Google Authenticator</strong><br />(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a> / <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)</p>
 	{/if}
 {else}
-	<p>{$OATH.enabled}</p><br />
+	<p class="alert alert-success">{$OATH.enabled}</p><br />
 	{if $allow_secret_review}
 		<div>
 			<button class="btn btn-primary" onclick="this.parentNode.innerHTML = '<img src=\'{$modulelink}&qr=1&secret={$secret}\' /><br /><br /><p lass=\'alert alert-warning\'>{$OATH.unableScan}<br />{$secret}</p><br /><br />{if !$firstactivation}<p>{$OATH.emCode}: {$emergencycode}<br /><br />{$OATH.emCodeNote}</p><br /><br />{/if}'">{$OATH.btnSecret}</button><br />
