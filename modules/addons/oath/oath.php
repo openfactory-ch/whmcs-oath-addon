@@ -153,6 +153,7 @@ function oath_clientarea($vars) {
 	$ret['vars']['enable_clients'] = $vars['enable_clients'];
 	$ret['vars']['allow_secret_review'] = $vars['allow_secret_review'];
 	$ret['vars']['modulelink'] = $vars['modulelink'];
+	$ret['vars']['OATH'] = $vars['_lang'];
 	
 	return $ret;	
 }
