@@ -3,45 +3,45 @@
 <div class="logincontainer" style="text-align:center; width:400px">
 
 {if $incorrect}
-	<div class="alert alert-error">{$OATH.incorrect}</div>
+	<div class="alert alert-error alert-danger">{$OATH.incorrect}</div>
 {/if}
 
 {if $login}
-	<p>{$OATH.enterCodeNote}</p><br /><br />
+	<p>{$OATH.enterCodeNote}</p><br />
 	<form method="post" action="{$modulelink}">
 	<input type="hidden" name="action" value="login" />
-	<input type="text" name="code" placeholder="{$OATH.enterCode}" autocomplete="off" /><br /><br />
+	<input type="text" name="code" placeholder="{$OATH.enterCode}" autocomplete="off" /><br />
 	<button type="submit" class="btn btn-primary">{$OATH.btnLogin}</button>
 	</form><br /><br />
 	<div>
 		<button class="btn" onclick="this.parentNode.innerHTML = '<form method=\'post\' action=\'{$modulelink}\'><input type=\'hidden\' name=\'action\' value=\'login\' /><input type=\'text\' name=\'emergencycode\' placeholder=\'{$OATH.enterEmCode}\' /><br /><br /><button type=\'submit\' class=\'btn btn-primary\'>{$OATH.emLogin}</button></form>'">{$OATH.lostDevice}</button>
 	</div>
 {elseif !$enable_clients}
-	<div class="alert alert-error">{$OATH.inactive}</div>
+	<div class="alert alert-error alert-danger">{$OATH.inactive}</div>
 {elseif !$active}
 	{if !$verify}
-		<p>{$OATH.disabled}</p><br /><br />
+		<p class="alert alert-info">{$OATH.disabled}</p><br />
 		<form method="post" action="{$modulelink}">
 		<input type="hidden" name="action" value="enable" />
 		<button type="submit" class="btn btn-primary">{$OATH.btnEnable}</button>
 		</form>
 	{else}
-		<p>{$OATH.scanNote}</p><br /><br />
-		<img src="{$modulelink}&qr=1&secret={$secret}" /><br /><br />
-		<p>{$OATH.unableScan}<br />{$secret}</p><br /><br />
+		<p class="alert alert-info">{$OATH.scanNote}</p><br />
+		<img src="{$modulelink}&qr=1&secret={$secret}" /><br />
+		<p class="alert alert-warning">{$OATH.unableScan}<br /><strong>{$secret}</strong></p><br />
 		<form method="post" action="{$modulelink}">
 		<input type="hidden" name="action" value="verify" />
 		<input type="hidden" name="secret" value="{$secret}" />
 		<input type="text" name="code" placeholder="{$OATH.enterCode}" autocomplete="off" /><br /><br />
 		<button type="submit" class="btn btn-primary">{$OATH.verify}</button>
 		</form><br /><br />
-		<p>{$OATH.recomApp}: Google Authenticator<br />(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a> / <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)</p>
+		<p class="alert alert-warning">{$OATH.recomApp}: <strong>Google Authenticator</strong><br />(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a> / <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)</p>
 	{/if}
 {else}
 	<p>{$OATH.enabled}</p><br />
 	{if $allow_secret_review}
 		<div>
-			<button class="btn btn-primary" onclick="this.parentNode.innerHTML = '<img src=\'{$modulelink}&qr=1&secret={$secret}\' /><br /><br /><p>{$OATH.unableScan}<br />{$secret}</p><br /><br />{if !$firstactivation}<p>{$OATH.emCode}: {$emergencycode}<br /><br />{$OATH.emCodeNote}</p><br /><br />{/if}'">{$OATH.btnSecret}</button><br /><br />
+			<button class="btn btn-primary" onclick="this.parentNode.innerHTML = '<img src=\'{$modulelink}&qr=1&secret={$secret}\' /><br /><br /><p lass=\'alert alert-warning\'>{$OATH.unableScan}<br />{$secret}</p><br /><br />{if !$firstactivation}<p>{$OATH.emCode}: {$emergencycode}<br /><br />{$OATH.emCodeNote}</p><br /><br />{/if}'">{$OATH.btnSecret}</button><br />
 		</div>
 	{/if}
 	{if $firstactivation}
@@ -50,8 +50,8 @@
 	<form method="post" action="{$modulelink}">
 	<input type="hidden" name="action" value="disable" />
 	<button type="submit" class="btn btn-danger">{$OATH.btnDisable}</button>
-	</form><br /><br />
-	<p>{$OATH.note}</p>
+	</form><br />
+	<p class="alert alert-info">{$OATH.note}</p>
 {/if}
 
 </div>
