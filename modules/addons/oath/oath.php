@@ -56,6 +56,8 @@ function oath_clientarea($vars) {
 	$secret = get_query_val('mod_oath_client', 'secret', "userid = '$userid'");
 	$emergencycode = get_query_val('mod_oath_client', 'emergencycode', "userid = '$userid'");
 	
+	$ret['vars']['OATH'] = $vars['_lang'];
+	
 	if($_SESSION['twofactorverify'] && !$_POST['action'] == 'login') {
 		$ret['pagetitle'] = 'Two-Factor Login Verification';
 		$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
@@ -153,7 +155,6 @@ function oath_clientarea($vars) {
 	$ret['vars']['enable_clients'] = $vars['enable_clients'];
 	$ret['vars']['allow_secret_review'] = $vars['allow_secret_review'];
 	$ret['vars']['modulelink'] = $vars['modulelink'];
-	$ret['vars']['OATH'] = $vars['_lang'];
 	
 	return $ret;	
 }
