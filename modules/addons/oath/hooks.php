@@ -35,6 +35,7 @@ function oath_hook_admin_logout($vars) {
 add_hook("AdminLogout", 0, "oath_hook_admin_logout");
 
 function oath_admin_page($vars) {
+    session_start();
 	$script = explode('/', $_SERVER['SCRIPT_NAME']);
 	if(($script[count($script) - 1] == 'addonmodules.php' && $_GET['module'] == 'oath') || $_SESSION['twofactoradmin'] == $_SESSION['adminid']) {
 		return;
@@ -49,7 +50,10 @@ function oath_admin_page($vars) {
 		return;
 	}
 	
+	$_SESSION['original_request_uri'] = $_SERVER['REQUEST_URI'];
+	
 	header('Location: addonmodules.php?module=oath');
+	session_write_close();
 	exit(0);
 }
 
