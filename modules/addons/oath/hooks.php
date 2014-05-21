@@ -10,10 +10,18 @@ function oath_hook_client_login($vars) {
 	
     $userid = $vars['userid'];
 	if(!get_query_val('mod_oath_client', 'secret', "userid = '{$vars['userid']}'")) {
+		if(isset($_SESSION['twofactorverify'])) {
+			unset($_SESSION['twofactorverify']);
+		}
+		
 		return;
 	}
 	
 	if(!get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'enable_clients'")) {
+		if(isset($_SESSION['twofactorverify'])) {
+			unset($_SESSION['twofactorverify']);
+		}
+		
 		return;
 	}
 	
