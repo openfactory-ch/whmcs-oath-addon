@@ -9,7 +9,7 @@ function oath_config() {
 	$configarray = array(
 	"name" => "OATH Two Factor Authentication",
 	"description" => "Provides OATH token-based two factor authentication for clients and admins",
-	"version" => "1.1.0",
+	"version" => "1.3.0",
 	"author" => "Dr. McKay",
 	"fields" => array(
 		"enable_clients" => array("FriendlyName" => "Enable for Clients", "Type" => "yesno", "Description" => "Tick to enable OATH two-factor authentication support for clients"),
