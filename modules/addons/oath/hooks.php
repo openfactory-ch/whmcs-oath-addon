@@ -66,3 +66,22 @@ function oath_admin_page($vars) {
 }
 
 add_hook("AdminAreaPage", 0, "oath_admin_page");
+
+function oath_hook_admin_client_profile_tab_fields($vars) {
+	$secret = get_query_val('mod_oath_client', 'secret', "userid = '{$vars['userid']}'");
+	if($secret) {
+		return array('OATH Addon' => '<label><input type="checkbox" name="disable_twofactor" value="1" /> Tick and save to disable two-factor authentication for this client</label>');
+	} else {
+		return array();
+	}
+}
+
+add_hook("AdminClientProfileTabFields", 0, "oath_hook_admin_client_profile_tab_fields");
+
+function oath_hook_admin_client_profile_tab_fields_save($vars) {
+	if(isset($vars['disable_twofactor'])) {
+		full_query("DELETE FROM `mod_oath_client` WHERE userid = '{$vars['userid']}'");
+	}
+}
+
+add_hook("AdminClientProfileTabFieldsSave", 0, "oath_hook_admin_client_profile_tab_fields_save");
