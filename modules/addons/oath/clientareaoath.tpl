@@ -1,5 +1,3 @@
-{include file="$template/pageheader.tpl" title="$pagetitle"}
-
 <div class="logincontainer" style="text-align:center; width:400px">
 
 {if $incorrect}

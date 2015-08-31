@@ -1,7 +1,32 @@
 <?php
+
+use WHMCS\View\Menu\Item as MenuItem;
+
 if(!defined("WHMCS")) {
 	die("This file cannot be accessed directly");
 }
+ 
+add_hook('ClientAreaPrimarySidebar', 1, function (MenuItem $menu)
+{
+    if (!is_null($menu->getChild('My Account'))) {
+		$menu->getChild('My Account')->addChild('OATH', array(
+			'label' => Lang::trans('twofactorauth'),
+			'uri' => 'index.php?m=oath',
+			'order' => '51',
+		));
+    }
+});
+ 
+add_hook('ClientAreaSecondaryNavbar', 1, function (MenuItem $menu)
+{
+    if (!is_null($menu->getChild('Account')) && !is_null(Menu::context('client'))) {
+		$menu->getChild('Account')->addChild('OATH', array(
+			'label' => Lang::trans('twofactorauth'),
+			'uri' => 'index.php?m=oath',
+			'order' => '51',
+		));
+    }
+});
 
 function oath_hook_client_login($vars) {
 	if($_SESSION['adminid']) {

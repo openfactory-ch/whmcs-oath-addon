@@ -152,7 +152,7 @@ function oath_clientarea($vars) {
 	
 	$ret['pagetitle'] = 'Two-Factor Login Configuration';
 	$ret['breadcrumb'] = array('index.php?m=oath' => 'Two-Factor Login Configuration');
-	$ret['templatefile'] = 'clientareaoath';
+	$ret['templatefile'] = './clientareaoath';
 	$ret['requirelogin'] = true;
 	$ret['vars']['secret'] = $secret;
 	$ret['vars']['emergencycode'] = $emergencycode;
