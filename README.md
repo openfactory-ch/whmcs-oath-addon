@@ -29,7 +29,7 @@ If you discover any issues or bugs, please report them on the [issue tracker](ht
 This addon was made possible by:
 
 * Current maintainer: [Openfactory GmbH](http://www.openfactory.ch)
-* Former developer(s): [repository](https://bitbucket.org/Doctor_McKay/whmcs-oath-addon/) [donate](https://www.doctormckay.com/donate.php)
+* Former developer(s): [Doctor_McKay/whmcs-oath-addon/](https://bitbucket.org/Doctor_McKay/whmcs-oath-addon/) [donate](https://www.doctormckay.com/donate.php)
 * Library: [PHPGangsta's GoogleAuthenticator class](https://github.com/PHPGangsta/GoogleAuthenticator)
 * Library: [PHP QR Code](http://phpqrcode.sourceforge.net/)
 
