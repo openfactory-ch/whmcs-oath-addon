@@ -9,8 +9,8 @@ function oath_config() {
 	$configarray = array(
 	"name" => "OATH Two Factor Authentication",
 	"description" => "Provides OATH token-based two factor authentication for clients and admins",
-	"version" => "1.3.0",
-	"author" => "Dr. McKay",
+	"version" => "2.1",
+	"author" => "openfactory-ch",
 	"fields" => array(
 		"enable_clients" => array("FriendlyName" => "Enable for Clients", "Type" => "yesno", "Description" => "Tick to enable OATH two-factor authentication support for clients"),
 		"enable_admins" => array("FriendlyName" => "Enable for Admins", "Type" => "dropdown", "Options" => "No,Yes,Required", "Description" => "Enables OATH two-factor authentication support for admins", "Default" => "No"),
@@ -63,8 +63,8 @@ function oath_clientarea($vars) {
 	$ret['vars']['OATH'] = $vars['_lang'];
 	
 	if($_SESSION['twofactorverify'] && !$_POST['action'] == 'login') {
-		$ret['pagetitle'] = 'Two-Factor Login Verification';
-		$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
+		$ret['pagetitle'] = Lang::trans('twofactorauth');
+		$ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
 		$ret['templatefile'] = 'clientareaoath';
 		$ret['requirelogin'] = false;
 		$ret['vars']['secret'] = $secret;
@@ -84,8 +84,8 @@ function oath_clientarea($vars) {
 				header('Location: clientarea.php');
 				exit(0);
 			} else {
-				$ret['pagetitle'] = 'Two-Factor Login Verification';
-				$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
+				$ret['pagetitle'] = Lang::trans('twofactorauth');
+				$ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
 				$ret['templatefile'] = 'clientareaoath';
 				$ret['requirelogin'] = false;
 				$ret['vars']['secret'] = $secret;
@@ -98,8 +98,8 @@ function oath_clientarea($vars) {
 		
 		$discrepancy = get_query_val('tbladdonmodules', 'value', "module = 'oath' AND setting = 'discrepancy'");
 		if(!$gauth->verifyCode($secret, $_POST['code'], $discrepancy)) {
-			$ret['pagetitle'] = 'Two-Factor Login Verification';
-			$ret['breadcrumb'] = array('index.php?m=oath', 'Two-Factor Login Verification');
+			$ret['pagetitle'] = Lang::trans('twofactorauth');
+			$ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
 			$ret['templatefile'] = 'clientareaoath';
 			$ret['requirelogin'] = false;
 			$ret['vars']['secret'] = $secret;
@@ -150,8 +150,8 @@ function oath_clientarea($vars) {
 		unset($emergencycode);
 	}
 	
-	$ret['pagetitle'] = 'Two-Factor Login Configuration';
-	$ret['breadcrumb'] = array('index.php?m=oath' => 'Two-Factor Login Configuration');
+	$ret['pagetitle'] = Lang::trans('twofactorauth');
+	$ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
 	$ret['templatefile'] = './clientareaoath';
 	$ret['requirelogin'] = true;
 	$ret['vars']['secret'] = $secret;
