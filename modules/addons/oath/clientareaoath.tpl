@@ -33,7 +33,13 @@
 		<input type="text" name="code" placeholder="{$OATH.enterCode}" autocomplete="off" /><br /><br />
 		<button type="submit" class="btn btn-primary">{$OATH.verify}</button>
 		</form><br /><br />
-		<p class="alert alert-warning">{$OATH.recomApp}: <strong>Google Authenticator</strong><br />(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a> / <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)</p>
+		<p class="alert alert-warning">{$OATH.recomApp}:<br />
+			<strong>Google Authenticator</strong><br />
+			(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a>
+			/ <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)<br />
+			<strong>Microsoft Authenticator Beta</strong><br />
+			(<a href="https://www.microsoft.com/en-us/store/p/microsoft-authenticator-beta/9nblggh5lb73" target="_blank">Windows 10 Mobile</a>)
+		</p>
 	{/if}
 {else}
 	<p class="alert alert-success">{$OATH.enabled}</p><br />
