@@ -1,6 +1,6 @@
 <?php
 
-$_ADDONLANG['incorrect']='Seu código estava incorreta.';
+$_ADDONLANG['incorrect']='Seu código estava incorreto.';
 $_ADDONLANG['enterCodeNote']='Digite o código gerado pela sua aplicação móvel.';
 $_ADDONLANG['enterCode']='Insira seu código';
 $_ADDONLANG['btnLogin']='Validar Entrada';
