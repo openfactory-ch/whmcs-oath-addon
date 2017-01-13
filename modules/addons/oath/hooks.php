@@ -28,6 +28,14 @@ add_hook('ClientAreaSecondaryNavbar', 1, function (MenuItem $menu)
     }
 });
 
+# fix security vulnerabilty (issue #9): The automatic login will continue to login the user even when it got removed by our client login hook.
+# we need to ensure there is no valid login as long the twofactorverify session key exists (and so every whmcs side autologin is reverted again)
+# yes this is intended to be in global namespace otherwise we can't ensure its reliabilty
+if(isset($_SESSION['twofactorverify'])) {
+        unset($_SESSION['uid']);
+        unset($_SESSION['upw']);
+}
+
 function oath_hook_client_login($vars) {
 	if($_SESSION['adminid']) {
 		return;
