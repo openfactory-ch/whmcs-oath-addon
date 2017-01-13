@@ -28,14 +28,6 @@ add_hook('ClientAreaSecondaryNavbar', 1, function (MenuItem $menu)
     }
 });
 
-# fix security vulnerabilty (issue #9): The automatic login will continue to login the user even when it got removed by our client login hook.
-# we need to ensure there is no valid login as long the twofactorverify session key exists (and so every whmcs side autologin is reverted again)
-# yes this is intended to be in global namespace otherwise we can't ensure its reliabilty
-if(isset($_SESSION['twofactorverify'])) {
-        unset($_SESSION['uid']);
-        unset($_SESSION['upw']);
-}
-
 function oath_hook_client_login($vars) {
 	if($_SESSION['adminid']) {
 		return;
@@ -62,7 +54,28 @@ function oath_hook_client_login($vars) {
 	$_SESSION['twofactorverifypw'] = $_SESSION['upw'];
 	unset($_SESSION['uid']);
 	unset($_SESSION['upw']);
-	
+
+	# fix security vulnerabilty (issue #9): The automatic login will continue to login the user even when it got removed by our client login hook.
+	# we need to ensure there will be no cookies passed to browser with autologin information and thus the cookie WHMCSUser will be overwritten
+	# befor it gets send to the browser.
+    $headers_cookie_safe = array();
+    $all_headers=headers_list();
+    foreach($all_headers as $header) {
+            $yo = '/^Set-Cookie: vs '.$header;
+            if(preg_match('/^Set-Cookie: /', $header)) {
+                    if(!preg_match('/^Set-Cookie: WHMCSUser=/', $header)) {
+                            $headers_cookie_safe[] = $header;
+                    }
+            }
+    }
+    header_remove('Set-Cookie');
+    //for all safe headers print them out as they were
+    foreach($headers_cookie_safe as $header) {
+            header($header);
+    }
+    //invoke deletion of any existing autologin cookies
+    header('Set-Cookie: WHMCSUser=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; httponly');
+
 	header('Location: index.php?m=oath');
 	exit(0);
 }
