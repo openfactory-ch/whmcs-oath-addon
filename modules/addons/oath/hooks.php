@@ -74,7 +74,7 @@ function oath_hook_client_login($vars) {
 			header($header);
 	}
 	//invoke deletion of any existing autologin cookies
-	setcookie('WHMCSUser', 'deleted', time()-3600, '/', "",false, true)
+	setcookie('WHMCSUser', 'deleted', time()-3600, '/', "",false, true);
 
 	header('Location: index.php?m=oath');
 	exit(0);
