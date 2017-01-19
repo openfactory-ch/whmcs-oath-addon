@@ -163,7 +163,6 @@ function oath_clientarea($vars) {
                 $ret['vars']['newBackupCode'] = $emergencycode;
 
                 return $ret;
-                
             } else {
                 $ret['pagetitle'] = Lang::trans('twofactorauth');
                 $ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
@@ -222,14 +221,8 @@ function oath_clientarea($vars) {
             $ret['vars']['incorrect'] = 1;
             $ret['vars']['verify'] = 1;
         } else {
-            $characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
-            $emergencycode = '';
-            for ($i = 0; $i < 16; $i++) {
-                if ($i % 4 == 0 && $i != 0 && $i != 16) {
-                    $emergencycode .= ' ';
-                }
-                $emergencycode .= substr($characters, rand(0, strlen($characters) - 1), 1);
-            }
+
+            $emergencycode = SecretCodeOATH::emergencyCode();
 
             // Save generated secret and emergency code to mod_oath_client table
             Capsule::table('mod_oath_client')->insert([
