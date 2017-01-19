@@ -35,6 +35,13 @@
 		</form><br /><br />
 		<p class="alert alert-warning">{$OATH.recomApp}: <strong>Google Authenticator</strong><br />(<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a> / <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a>)</p>
 	{/if}
+{elseif $backupCode}
+	<p class="alert alert-success">{$OATH.backupCodeInfo}</p><br />
+	<h2 class="text-center">{$OATH.newBackupCodeNote}</h2>
+	<p class="alert alert-warning text-center">{$newBackupCode}</p>
+	<p class="text-center">{$OATH.emCodeNote}</p>
+	<p class="btn"><a href="{$modulelink}" target="_self">Continue &raquo;</a></p>
+
 {else}
 	<p class="alert alert-success">{$OATH.enabled}</p><br />
 	{if $allow_secret_review}
