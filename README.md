@@ -4,6 +4,8 @@ This WHMCS addon module provides OATH-based two-factor authentication. You'd nor
 
 If you are logged in as an admin, client area two-factor authentication will be bypassed.
 
+If user input the Emergency Code, the client will get new Emergency Code with same secret. _Two Factor Authentication will not disabled because logging in using Emergency Code_
+
 ## Installation
 
 To install, simply download the latest [release](https://github.com/openfactory-ch/whmcs-oath-addon/releases), unzip it, and upload the `modules` folder to your WHMCS root directory. The Links are automatically created with the new WHMCS v6/v7 Client Area Menu.
