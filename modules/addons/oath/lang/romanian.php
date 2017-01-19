@@ -5,6 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * */
 $_ADDONLANG['incorrect']='Codul introdus este incorect.';
 $_ADDONLANG['enterCodeNote']='Va rugam introduceti codul generat de aplicatia Dvs. mobila.';
+$_ADDONLANG['backupCodeInfo']='Login via Backup Code Successful. Backup Codes are valid once only. It will now be reset. ';
+$_ADDONLANG['newBackupCodeNote']='Your New Backup Code is';
 $_ADDONLANG['enterCode']='Introduceti codul';
 $_ADDONLANG['btnLogin']='Validare cod';
 $_ADDONLANG['enterEmCode']='Introduceti codul de urgenta';
