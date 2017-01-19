@@ -130,16 +130,40 @@ function oath_clientarea($vars) {
         if ($_POST['emergencycode']) {
             $realcode = str_replace(' ', '', strtolower($emergencycode));
             $theircode = str_replace(' ', '', strtolower($_POST['emergencycode']));
+
+            // If the user enter correct emergency code
+
             if ($theircode == $realcode) {
 
-                Capsule::table('mod_oath_client')->where('userid', $userid)->delete();
+                // Don't disable the two factor. 
+                // Give them new code!
+                // Capsule::table('mod_oath_client')->where('userid', $userid)->delete();
+
+                $emergencycode = SecretCodeOATH::emergencyCode();
+
+                Capsule::table('mod_oath_client')
+                        ->where('userid', $userid)
+                        ->update(['emergencycode' => $emergencycode]);
 
                 $_SESSION['uid'] = $_SESSION['twofactorverify'];
                 $_SESSION['upw'] = $_SESSION['twofactorverifypw'];
                 unset($_SESSION['twofactorverify']);
                 unset($_SESSION['twofactorverifypw']);
-                header('Location: clientarea.php');
-                exit(0);
+
+                global $CONFIG;
+                $ret['vars']['active'] = 1;
+                $ret['pagetitle'] = Lang::trans('twofactorauth');
+                $ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
+                $ret['templatefile'] = 'clientareaoath';
+                $ret['requirelogin'] = false;
+                $ret['vars']['secret'] = $secret;
+                $ret['vars']['modulelink'] = $CONFIG['SystemURL'] . '/clientarea.php';
+                $ret['vars']['enable_clients'] = $vars['enable_clients'];
+                $ret['vars']['backupCode'] = 1;
+                $ret['vars']['newBackupCode'] = $emergencycode;
+
+                return $ret;
+                
             } else {
                 $ret['pagetitle'] = Lang::trans('twofactorauth');
                 $ret['breadcrumb'] = array('index.php?m=oath' => Lang::trans('twofactorauth'));
@@ -336,4 +360,24 @@ function oath_output($vars) {
     }
 
     echo '</div>';
+}
+
+if (!class_exists('SecretCodeOATH')) {
+
+    class SecretCodeOATH {
+
+        public static function emergencyCode(): string {
+            $characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
+            $emergencycode = '';
+            for ($i = 0; $i < 16; $i++) {
+                if ($i % 4 == 0 && $i != 0 && $i != 16) {
+                    $emergencycode .= ' ';
+                }
+                $emergencycode .= substr($characters, rand(0, strlen($characters) - 1), 1);
+            }
+            return $emergencycode;
+        }
+
+    }
+
 }
