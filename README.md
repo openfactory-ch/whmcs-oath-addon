@@ -20,7 +20,7 @@ Since the codebase and database is exactly the same and only minimal stuff have 
 
 ## Issues
 
-Latest tested Release: WHMCS v6.3.1.
+Latest tested Release: WHMCS v7.1.1
 
 If you discover any issues or bugs, please report them on the [issue tracker](https://github.com/openfactory-ch/whmcs-oath-addon/issues).
 
