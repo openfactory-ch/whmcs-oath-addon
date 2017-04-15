@@ -6,6 +6,8 @@
  
 $_ADDONLANG['incorrect']='Вашият код е невалиден.';
 $_ADDONLANG['enterCodeNote']='Моля въведете кодът генериран от вашето мобилно приложение';
+$_ADDONLANG['backupCodeInfo']='Login via Backup Code Successful. Backup Codes are valid once only. It will now be reset. ';
+$_ADDONLANG['newBackupCodeNote']='Your New Backup Code is';
 $_ADDONLANG['enterCode']='Въведи код';
 $_ADDONLANG['btnLogin']='Валидирай';
 $_ADDONLANG['enterEmCode']='Въведете вашият авариен вход';

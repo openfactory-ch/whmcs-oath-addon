@@ -1,12 +1,14 @@
-# WHMCS OATH Addon (WHMCS v6+)
+# WHMCS OATH Addon (WHMCS v6 & v7)
 
 This WHMCS addon module provides OATH-based two-factor authentication. You'd normally use this with a mobile app, like Google Authenticator (Free, [iOS](https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8) / [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)).
 
 If you are logged in as an admin, client area two-factor authentication will be bypassed.
 
+If user input the Emergency Code, the client will get new Emergency Code with same secret. _Two Factor Authentication will not disabled because logging in using Emergency Code_
+
 ## Installation
 
-To install, simply download the latest [release](https://github.com/openfactory-ch/whmcs-oath-addon/releases), unzip it, and upload the `modules` folder to your WHMCS root directory. The Links are automatically created with the new WHMCS v6 Client Area Menu.
+To install, simply download the latest [release](https://github.com/openfactory-ch/whmcs-oath-addon/releases), unzip it, and upload the `modules` folder to your WHMCS root directory. The Links are automatically created with the new WHMCS v6/v7 Client Area Menu.
 
 Once uploaded, go to Setup > Addon Modules in your admin area and click Activate for the "OATH Two Factor Authentication" entry. Once activated, click Configure to customize your settings.
 
@@ -20,7 +22,7 @@ Since the codebase and database is exactly the same and only minimal stuff have 
 
 ## Issues
 
-Latest tested Release: WHMCS v7.1.1
+Latest tested Release: WHMCS v7.1.1.
 
 If you discover any issues or bugs, please report them on the [issue tracker](https://github.com/openfactory-ch/whmcs-oath-addon/issues).
 

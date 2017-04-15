@@ -41,6 +41,13 @@
 			(<a href="https://www.microsoft.com/en-us/store/p/microsoft-authenticator-beta/9nblggh5lb73" target="_blank">Windows 10 Mobile</a>)
 		</p>
 	{/if}
+{elseif $backupCode}
+	<p class="alert alert-success">{$OATH.backupCodeInfo}</p><br />
+	<h2 class="text-center">{$OATH.newBackupCodeNote}</h2>
+	<p class="alert alert-warning text-center">{$newBackupCode}</p>
+	<p class="text-center">{$OATH.emCodeNote}</p>
+	<p class="btn"><a href="{$modulelink}" target="_self">Continue &raquo;</a></p>
+
 {else}
 	<p class="alert alert-success">{$OATH.enabled}</p><br />
 	{if $allow_secret_review}

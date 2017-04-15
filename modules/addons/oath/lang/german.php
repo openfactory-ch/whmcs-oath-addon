@@ -2,6 +2,8 @@
 
 $_ADDONLANG['incorrect']='Der eingegebene Code ist nicht korrekt.';
 $_ADDONLANG['enterCodeNote']='Bitte geben Sie den generierten Code aus Ihrer Mobile App ein.';
+$_ADDONLANG['backupCodeInfo']='Login via Sicherungscode Erfolgreich. Sicherungscodes sind nur einmal gültig. Es wird nun zurückgesetzt.';
+$_ADDONLANG['newBackupCodeNote']='Ihr neuer Sicherungscode ist';
 $_ADDONLANG['enterCode']='Ihren Code eingeben';
 $_ADDONLANG['btnLogin']='Login validieren';
 $_ADDONLANG['enterEmCode']='Ihren Notfall-Code eingeben';
