@@ -359,7 +359,7 @@ if (!class_exists('SecretCodeOATH')) {
 
     class SecretCodeOATH {
 
-        public static function emergencyCode(): string {
+        public static function emergencyCode() { // return type declaration not available on php v5.6, whmcs officially supports 5.6+ until now
             $characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
             $emergencycode = '';
             for ($i = 0; $i < 16; $i++) {
