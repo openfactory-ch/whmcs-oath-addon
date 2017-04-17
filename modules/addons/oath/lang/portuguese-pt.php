@@ -2,6 +2,8 @@
 
 $_ADDONLANG['incorrect']='O seu código estava incorreto.';
 $_ADDONLANG['enterCodeNote']='Digite o código gerado pela sua aplicação móvel.';
+$_ADDONLANG['backupCodeInfo']='Autenticação através de Código de Segurança efectuado com sucesso. Os códigos de segurança são válidos apenas uma vez. Este será agora redefinido. ';
+$_ADDONLANG['newBackupCodeNote']='O seu novo Código de Segurança é';
 $_ADDONLANG['enterCode']='Insira o seu código';
 $_ADDONLANG['btnLogin']='Validar Autenticação';
 $_ADDONLANG['enterEmCode']='Digite o seu código de emergência';
