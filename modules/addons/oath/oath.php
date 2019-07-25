@@ -91,8 +91,10 @@ function oath_clientarea($vars) {
         }
 
         global $CONFIG;
-        $company2 = $CONFIG['CompanyName'];
-        QRcode::png('otpauth://totp/' . $user . '?issuer=' . urlencode($company) . '&secret=' . $_GET['secret']);
+        $company = $CONFIG['CompanyName'];
+		$domain = $CONFIG['Domain'];
+		$domain = preg_replace('#^https?://#', '', $domain);
+        QRcode::png('otpauth://totp/' .$domain. ':' .$user. '?issuer=' . urlencode($company) . '&secret=' . $_GET['secret']);
         exit(0);
     }
 
@@ -267,8 +269,10 @@ function oath_output($vars) {
         }
 
         global $CONFIG;
-        $company2 = $CONFIG['CompanyName'];
-        QRcode::png('otpauth://totp/' . $user . '?issuer=' . urlencode($company) . '&secret=' . $_GET['secret']);
+        $company = $CONFIG['CompanyName'];
+		$domain = $CONFIG['Domain'];
+		$domain = preg_replace('#^https?://#', '', $domain);
+        QRcode::png('otpauth://totp/' .$domain. ':' .$user. '?issuer=' . urlencode($company) . '&secret=' . $_GET['secret']);
         exit(0);
     }
 
